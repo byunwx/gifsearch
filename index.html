@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <meta charset="utf-8">
+  <title>byunwx: Giphy</title>
+  <style>
+    img{
+      height: 200px!important;
+    }
+    button{
+      margin: 5px;
+    }
+    .gifLogo{
+      background-image: url("https://media0.giphy.com/media/YJBNjrvG5Ctmo/200.gif?cid=e1bb72ff5a92f92675316e4f553883d9");
+      height: 50px;
+      width: 50px;
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      float: left;
+      margin: 10px;
+    }
+    #clearGif{
+      float: right;
+      margin-top: 20px;
+    }
+    #clearBtn{
+      float: left;
+      margin: 5px;
+    }
+
+    .iconlink{
+      width:170px;
+      margin: 20px auto;
+    }
+    .smallbox{
+      width: 50px;
+      height: 50px;
+      margin: 0 2px;
+      float: left;
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
+    .box1{
+      background-image: url("./images/icons/github.png");
+    }
+    .box2{
+      background-image: url("./images/icons/linkicon.png");
+    }
+    .box3{
+      background-image: url("./images/icons/stackicon.png");
+    }
+    .box1:hover{
+      background-image: url("./images/icons/githubicon.png");
+    }
+    .box2:hover{
+      background-image: url("./images/icons/link-icon.jpg");
+    }
+    .box3:hover{
+      background-image: url("./images/icons/stack.png");
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 panel">
+        <div class='gifLogo img-circle'></div>
+        <h1>Search any giphy you like</h1>
+      </div>
+
+    </div>
+    <div class="row">
+      <div id="buttons" class="col-sm-12">
+      </div>
+      <button id="clearBtn" class="btn btn-danger">clear</button>
+    </div>
+<br>
+  <div class="row">
+    <div class="panel panel-default col-sm-9">
+      <div class="panel-heading">
+        <h3 class="panel-title">image display</h3>
+        <button id="clearGif" class="btn btn-danger">clear</button>
+      </div>
+      <div id="gifs-appear-here" class="row panel-body">
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <form id="image-form">
+        <label for="image-input">Search Gif</label>
+        <input type="text" id="image-input">
+        <input id="add-image" type="submit" value="Click to Add Button" class="btn btn-success">
+      </form>
+      <br>
+      <div class="row">
+        <div class="iconlink">
+          <a href="https://github.com/byunwx"><div class="smallbox box1"></div></a>
+          <a  href="https://www.linkedin.com/in/woojoo-byun-877181153/"><div class="smallbox box2"></div></a>
+          <a href="https://stackoverflow.com/users/9036970/woojoo-byun"><div class="smallbox box3"></div></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+
+  var imageArr=["dog", "cat", "pig"];
+  function renderButtons() {
+
+    $("#buttons").empty();
+
+    for (var i = 0; i < imageArr.length; i++) {
+
+      var a = $("<button>");
+      a.attr("data-image", imageArr[i]);
+      a.addClass("searchBtn btn btn-primary")
+      a.text(imageArr[i]);
+      $("#buttons").append(a);
+    }
+  };
+
+    $("#add-image").on("click", function(event) {
+      console.log("newImage");
+      event.preventDefault();
+      var newImage = $("#image-input").val().trim();
+      console.log(newImage);
+      imageArr.push(newImage);
+      renderButtons();
+    });
+
+
+    var displayImages= function() {
+      console.log("searchbtn clicked")
+      var image = $(this).attr("data-image");
+      var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+        image + "&api_key=dc6zaTOxFJmzC&limit=10";
+
+      $.ajax({
+          url: queryURL,
+          method: "GET"
+        })
+        .then(function(response) {
+          console.log(response);
+          var results = response.data;
+
+          for (var i = 0; i < results.length; i++) {
+            var gifDiv = $("<div class='item col-sm-12 col-md-4'>");
+
+            var rating = results[i].rating;
+
+            var p = $("<p>").text("Rating: " + rating);
+
+            var gifImage = $("<img>");
+            gifImage.attr("src", results[i].images.fixed_height_still.url);
+            gifImage.attr("data-still", results[i].images.fixed_height_still.url);
+            gifImage.attr("data-animate", results[i].images.fixed_height.url);
+            gifImage.attr("data-state", "still");
+            gifImage.attr("class", "gif img-thumbnail");
+
+            gifDiv.prepend(p);
+            gifDiv.prepend(gifImage);
+
+            $("#gifs-appear-here").prepend(gifDiv);
+
+
+          }
+          $(".gif").on("click", function() {
+            console.log($(this).attr("data-state"));
+            if ($(this).attr("data-state")=="still") {
+              $(this).attr("data-state", "animate");
+              var newSrc=$(this).attr("data-animate");
+              $(this).attr("src", newSrc);
+            }else{
+              $(this).attr("data-state", "still");
+              // var newSrc=$(this).attr("data-still");
+              $(this).attr("src", $(this).attr("data-still"));
+            }
+          });
+        });
+
+    };
+    $(document).on("click", "#clearGif", function(){
+      $("#gifs-appear-here").empty();
+    });
+    $(document).on("click", "#clearBtn", function(){
+      $("#buttons").empty();
+      imageArr=[];
+    });
+    $(document).on("click", ".searchBtn", displayImages);
+    renderButtons();
+
+
+  </script>
+</body>
+
+</html>
