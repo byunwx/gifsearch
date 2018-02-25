@@ -131,9 +131,14 @@
       console.log("newImage");
       event.preventDefault();
       var newImage = $("#image-input").val().trim();
-      console.log(newImage);
-      imageArr.push(newImage);
-      renderButtons();
+      if (imageArr.indexOf(newImage)<0) {
+        console.log(newImage);
+        imageArr.push(newImage);
+        renderButtons();
+      } else{
+        alert("You already have that button");
+      }
+
     });
 
 
