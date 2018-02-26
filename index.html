@@ -27,7 +27,6 @@
       margin-top: 20px;
     }
     #clearBtn{
-      float: left;
       margin: 5px;
     }
 
@@ -74,27 +73,31 @@
       </div>
 
     </div>
-    <div class="row">
-      <div id="buttons" class="col-sm-12">
-      </div>
-      <button id="clearBtn" class="btn btn-danger">clear</button>
-    </div>
 <br>
   <div class="row">
-    <div class="panel panel-default col-sm-9">
-      <div class="panel-heading">
-        <h3 class="panel-title">image display</h3>
-        <button id="clearGif" class="btn btn-danger">clear</button>
-      </div>
-      <div id="gifs-appear-here" class="row panel-body">
-      </div>
-    </div>
-    <div class="col-sm-3">
+
+    <div class="col-sm-12 col-md-3">
       <form id="image-form">
         <label for="image-input">Search Gif</label>
-        <input type="text" id="image-input">
+        <input type="text" id="image-input"><br>
         <input id="add-image" type="submit" value="Click to Add Button" class="btn btn-success">
       </form>
+      <div class="row">
+        <!-- <div class="panel panel-default">
+          <div class="panel-heading">
+            <button id="clearBtn" class="btn btn-danger">clear</button>
+          </div>
+          <div id="buttons" class="panel-body">
+          </div>
+        </div> -->
+
+        <div id="buttons" class="col-sm-12">
+        </div>
+        <br>
+        <div class="col-sm-12">
+          <button id="clearBtn" class="btn btn-danger">clear</button>
+        </div>
+      </div>
       <br>
       <div class="row">
         <div class="iconlink">
@@ -105,6 +108,16 @@
       </div>
 
     </div>
+
+    <div class="panel panel-default col-sm-12 col-md-9">
+      <div class="panel-heading">
+        <h3 class="panel-title">image display</h3>
+        <button id="clearGif" class="btn btn-danger">clear</button>
+      </div>
+      <div id="gifs-appear-here" class="row panel-body">
+      </div>
+    </div>
+
   </div>
 
   </div>
@@ -157,7 +170,7 @@
           var results = response.data;
 
           for (var i = 0; i < results.length; i++) {
-            var gifDiv = $("<div class='item col-sm-12 col-md-4'>");
+            var gifDiv = $("<div class='item col-sm-6 col-md-4'>");
 
             var rating = results[i].rating;
 
