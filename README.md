@@ -24,3 +24,42 @@
 * 10 gif images come in as output once the button is press with catagroy name.
 * images come in with no animation.
 * once the images are pressed the images come to life (animation).
+
+### .ajax client side call
+```javascript
+var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+        image + "&api_key=XXX";
+
+      $.ajax({
+          url: queryURL,
+          method: "GET"
+        })
+        .then(function(response) {
+          console.log(response);
+          var results = response.data;
+
+          for (var i = 0; i < results.length; i++) {
+          
+ ```
+### click function to change still image to gif image
+```javascript
+var gifImage = $("<img>");
+            gifImage.attr("src", results[i].images.fixed_height_still.url);
+            gifImage.attr("data-still", results[i].images.fixed_height_still.url);
+            gifImage.attr("data-animate", results[i].images.fixed_height.url);
+            gifImage.attr("data-state", "still");
+            
+$(".gif").on("click", function() {
+            console.log($(this).attr("data-state"));
+            if ($(this).attr("data-state")=="still") {
+              $(this).attr("data-state", "animate");
+              var newSrc=$(this).attr("data-animate");
+              $(this).attr("src", newSrc);
+            }else{
+              $(this).attr("data-state", "still");
+              // var newSrc=$(this).attr("data-still");
+              $(this).attr("src", $(this).attr("data-still"));
+            }
+          });
+  ```
+  
