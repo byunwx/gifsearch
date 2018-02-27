@@ -1,6 +1,6 @@
-#Gif Search
+# Gif Search
 
-##target user
+## target user
 
 * People who wants to look at gif all day
 * People who is tired from work and chill at their own time
