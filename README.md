@@ -16,9 +16,9 @@
 ## Set up
 * there are some buttons for animal gifs like dog and cat
 * if one wants to add more image catagory, one can do so by adding new button on search gif input box
- * blue buttons give user output
- * red button clears result or buttons
- * green button populates button
+  * blue buttons give user output
+  * red button clears result or buttons
+  * green button populates button
 
 ## output
 * 10 gif images come in as output once the button is press with catagroy name.
